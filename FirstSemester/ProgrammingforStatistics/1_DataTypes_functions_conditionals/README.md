@@ -1,12 +1,10 @@
-# Clase 1 - Ejercicios <!--omit in toc-->
-## Table of Contents <!--omit in toc-->
-- [Clase 1 - Ejercicios](#clase-1---ejercicios)
-  - [Table of Contents](#table-of-contents)
-  - [Individuales](#individuales)
-  - [Grupales](#grupales)
-    - [Ceros de la función cuadrática](#ceros-de-la-función-cuadrática)
-    - [Polinómio de Lagrange](#polinómio-de-lagrange)
-    - [Método de bisección](#método-de-bisección)
+# Clase 1 - Ejercicios <!-- omit in toc -->
+## Table of Contents <!-- omit in toc -->
+- [Individuales](#individuales)
+- [Grupales](#grupales)
+  - [Ceros de la función cuadrática](#ceros-de-la-función-cuadrática)
+  - [Polinómio de Lagrange](#polinómio-de-lagrange)
+  - [Método de bisección](#método-de-bisección)
 ## Individuales
 1. Escriba:
    1. Una función que convierta una temperatura en grados Celsius a grados `Fahrenheit`.
@@ -37,7 +35,7 @@
     densidades = c(50, 30)
     # las_medias = ...
     hist(las_medias, density=densidades[1], col = colores[1])
-    # las_mediana = ...
+    # las_medianas = ...
     hist(las_medianas, density=densidades[2], col = colores[2], add=TRUE)
     legend("topright", legend=c("media", "mediana"), col = colores, density=densidades, fill = colores)
     ```
@@ -58,7 +56,7 @@
     ```
     3. Calcule la media muestral de `reps`, ¿qué representa?.
 6. Considere la siguientes tres sucesiones:
-   - $$a_n = (\dfrac{1}{\sqrt{n}}) + (\dfrac{1}{n})^n$$
+   - $$a_n = (\dfrac{1}{\sqrt{n}}) + (\dfrac{1}{2})^n$$
    - $$b_n = (-1)^n + 5$$
    - $$c_n = \dfrac{3n-8}{\sqrt{16n^2 + n}}$$
    1. Grafique los primeros `n=100` términos de cada sucesión.
