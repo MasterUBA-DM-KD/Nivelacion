@@ -1,85 +1,16 @@
-# Clase 1 - Ejercicios <!-- omit in toc -->
+# Clase 1 - 27/09 <!-- omit in toc -->
+
 ## Table of Contents <!-- omit in toc -->
-- [Individuales](#individuales)
-- [Grupales](#grupales)
+- [Grupal](#grupal)
   - [Ceros de la función cuadrática](#ceros-de-la-función-cuadrática)
   - [Polinómio de Lagrange](#polinómio-de-lagrange)
   - [Método de bisección](#método-de-bisección)
-## Individuales
-1. Escriba:
-   1. Una función que convierta una temperatura en grados Celsius a grados `Fahrenheit`.
-   2. Otro programa que se haga la operación inversa (de Fahrenheit a Celsius).
-   3. Verifique que aplicar una función seguida de la otra devuelven el valor original.
-2. Cree una función que dado un cuadrado, a partir de la variable `base`, calcule su `perímetro` y su `área`.
+- [Individuales](#individuales)
 
-3. Construya una función `es_cuadrado_perfecto` que devuelva un **boolean** según el input `x` es o no un cuadrado perfecto (existe `k` tal que `k²`)
-
-4. Arme una función que dado un vector numérico `x` devuelve un vector con la `media muestral y`, la `mediana`. Use el siguiente modelo como base:
-
-    ```r
-    medias = function(x) {
-        return(c(mean(x), median(x)))
-    }
-    ```
-
-    Una vez definida la función `medias` ejecute la siguente línea:
-
-    ```r
-    replicaciones = replicate(10000, medias(rnorm(100)))
-    ```
-
-    Extraiga de la matriz `replicaciones` las `medias` y `medianas`, y asígnelas a los vectores `las_medias` y `las_medianas` respectivamente. Luego ejecute el siguiente código para graficar.
-
-    ```r
-    colores = c("skyblue3", "orange")
-    densidades = c(50, 30)
-    # las_medias = ...
-    hist(las_medias, density=densidades[1], col = colores[1])
-    # las_medianas = ...
-    hist(las_medianas, density=densidades[2], col = colores[2], add=TRUE)
-    legend("topright", legend=c("media", "mediana"), col = colores, density=densidades, fill = colores)
-    ```
-5. Una empresa regala una heladera al azar entre `N` personas. Repite el proceso `n` veces. ¿Cuál es la probabilidad de que una persona reciba dos heladeras?
-   1. Primero escriba una función que simule una sola realización del sorteo. Usá el siguiente modelo:
-   ```r
-   una_heladera = function(N, n){
-        # ...
-        return(dos_heladeras_bool)
-    }
-   ```
-    2. Use el siguiente código para obtener un vector con los resultados de correr la función anterior `k` veces.
-    ```r
-    k = 1000
-    N = 40000000
-    n = 15000
-    reps = replicate(k, una_heladera(N, n))
-    ```
-    3. Calcule la media muestral de `reps`, ¿qué representa?.
-6. Considere la siguientes tres sucesiones:
-   - $$a_n = (\dfrac{1}{\sqrt{n}}) + (\dfrac{1}{2})^n$$
-   - $$b_n = (-1)^n + 5$$
-   - $$c_n = \dfrac{3n-8}{\sqrt{16n^2 + n}}$$
-   1. Grafique los primeros `n=100` términos de cada sucesión.
-   2. Decida si las sucesiones son convergentes y en tal caso agregue una línea horizontal al gráfico.
-7. Considere las siguientes funciones:
-    $$
-    f(x)=
-    \begin{cases}
-    l_1(x) = |x|\\
-    l_2(x) = x^2\\
-    \rho_x = x^2 • I_{(|x|≤k)} + 2k|x| - k^2 • I_{(|x|>k)}\\
-    \end{cases}
-    \forall \; xE[−10,10]
-    $$
-
-  Grafique $\rho_k$ con `k=5` junto a las otras funciones con distintos colores y una leyenda.
-8. Grafique el polinomio interpolador de `Lagranges` en `n+1` puntos equiespaciados en el intervalo `[−1,1]`, con `n=5,10,15`, para los valores generados por las siguientes funciones:
-   - $$f_1(x) = \dfrac{1}{25x^2}$$
-   - $$f_2(x) = sin(\pi x)$$
-
-## Grupales
+## Grupal
 ### Ceros de la función cuadrática
 Dado el polinomio de grado 2, $p(x)=ax^2+bx+c$, decimos que $x_0$ es un cero o raíz del polinomio si $p(x_0)=0$. Tenga presente que según el valor de $\Delta = b^2 − 4ac$ el polinomio podría tener una raíz múltiple o incluse no tener raíces.
+
 1. Escriba una función que reciba los coeficientes del polinomio y devuelva un vector con las posibles raíces del polinomios. Use el siguiente modelo como base:
     ```r
     ceros_cuadratica = function(a, b, c){
@@ -111,9 +42,10 @@ Dado el polinomio de grado 2, $p(x)=ax^2+bx+c$, decimos que $x_0$ es un cero o r
 ### Polinómio de Lagrange
 El objetivo de la actividad es implementar el [polinomio interpolador de Lagrange](https://es.wikipedia.org/wiki/Interpolaci%C3%B3n_polin%C3%B3mica_de_Lagrange#:~:text=En%20an%C3%A1lisis%20num%C3%A9rico%2C%20el%20polinomio,por%20Leonhard%20Euler%20en%201783.).
 
-
 Dados `n` pares de puntos $(x_1,y_1), ...,(x_n,y_n)$, el polinomio interpolador de Lagrange, es decir el único polinomio $f(x)$ de grado `k+1` tal que $f(x_i) = y_i$ para todo $i = 1...,n$. Su expresión viene dada por:
+
 $$f(x) = y_1⋅p_1(x) +...+ y_n⋅p_n(x)$$
+
 donde cada $p_n$ es el `j-ésimo` polinomio de Lagrange:
 
 $$p_j(x) = \prod_{i \neq 1}^{} \dfrac{x - x_i}{x_i - x_j}$$
@@ -242,3 +174,76 @@ Dada una función continua `f` definida en un intervalo `[a,b]`, si `f(a)∗f(b)
         return(trace)
     }
    ```
+
+## Individuales
+1. Escriba:
+   1. Una función que convierta una temperatura en grados Celsius a grados `Fahrenheit`.
+   2. Otro programa que se haga la operación inversa (de Fahrenheit a Celsius).
+   3. Verifique que aplicar una función seguida de la otra devuelven el valor original.
+2. Cree una función que dado un cuadrado, a partir de la variable `base`, calcule su `perímetro` y su `área`.
+
+3. Construya una función `es_cuadrado_perfecto` que devuelva un **boolean** según el input `x` es o no un cuadrado perfecto (existe `k` tal que `k²`)
+
+4. Arme una función que dado un vector numérico `x` devuelve un vector con la `media muestral y`, la `mediana`. Use el siguiente modelo como base:
+
+    ```r
+    medias = function(x) {
+        return(c(mean(x), median(x)))
+    }
+    ```
+
+    Una vez definida la función `medias` ejecute la siguente línea:
+
+    ```r
+    replicaciones = replicate(10000, medias(rnorm(100)))
+    ```
+
+    Extraiga de la matriz `replicaciones` las `medias` y `medianas`, y asígnelas a los vectores `las_medias` y `las_medianas` respectivamente. Luego ejecute el siguiente código para graficar.
+
+    ```r
+    colores = c("skyblue3", "orange")
+    densidades = c(50, 30)
+    # las_medias = ...
+    hist(las_medias, density=densidades[1], col = colores[1])
+    # las_medianas = ...
+    hist(las_medianas, density=densidades[2], col = colores[2], add=TRUE)
+    legend("topright", legend=c("media", "mediana"), col = colores, density=densidades, fill = colores)
+    ```
+5. Una empresa regala una heladera al azar entre `N` personas. Repite el proceso `n` veces. ¿Cuál es la probabilidad de que una persona reciba dos heladeras?
+   1. Primero escriba una función que simule una sola realización del sorteo. Usá el siguiente modelo:
+   ```r
+   una_heladera = function(N, n){
+        # ...
+        return(dos_heladeras_bool)
+    }
+   ```
+    2. Use el siguiente código para obtener un vector con los resultados de correr la función anterior `k` veces.
+    ```r
+    k = 1000
+    N = 40000000
+    n = 15000
+    reps = replicate(k, una_heladera(N, n))
+    ```
+    3. Calcule la media muestral de `reps`, ¿qué representa?.
+6. Considere la siguientes tres sucesiones:
+   - $$a_n = (\dfrac{1}{\sqrt{n}}) + (\dfrac{1}{2})^n$$
+   - $$b_n = (-1)^n + 5$$
+   - $$c_n = \dfrac{3n-8}{\sqrt{16n^2 + n}}$$
+   1. Grafique los primeros `n=100` términos de cada sucesión.
+   2. Decida si las sucesiones son convergentes y en tal caso agregue una línea horizontal al gráfico.
+7. Considere las siguientes funciones:
+    $$
+    f(x)=
+    \begin{cases}
+    l_1(x) = |x|\\
+    l_2(x) = x^2\\
+    \rho_x = x^2 • I_{(|x|≤k)} + 2k|x| - k^2 • I_{(|x|>k)}\\
+    \end{cases}
+    \forall \; xE[−10,10]
+    $$
+
+    Grafique $\rho_k$ con `k=5` junto a las otras funciones con distintos colores y una leyenda.
+
+8. Grafique el polinomio interpolador de `Lagranges` en `n+1` puntos equiespaciados en el intervalo `[−1,1]`, con `n=5,10,15`, para los valores generados por las siguientes funciones:
+   - $$f_1(x) = \dfrac{1}{25x^2}$$
+   - $$f_2(x) = sin(\pi x)$$
