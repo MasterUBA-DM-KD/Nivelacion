@@ -100,20 +100,19 @@ def f1(lista):
   while 0 < i:
     i = i-1
     b = b -lista[i]
-  print(a, b)
   return a ==b
 
 def f2(lista):
   i = 0
-  a, b = lista[i], lista[len(lista)-1]
-  while i<len(lista):
-    i = i +1
-    a = a- lista[i-1]
-  while 0 < i:
-    i = i-1
-    b = b -lista[i]
-  print(a, b)
-  return a ==b
+  m = lista[i]
+  while i < len(lista):
+    n = lista[i]
+    j = i
+    while j < len(lista):
+      n = lista[j]
+      j = j + 1
+    i = i + 1
+  return m != n
 ```
 
 a) Determinar qué computa cada función. Justificar brevemente.
