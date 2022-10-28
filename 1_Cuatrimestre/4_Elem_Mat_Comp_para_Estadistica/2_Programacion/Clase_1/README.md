@@ -1,11 +1,26 @@
 # Clase 1 - 27/09 <!-- omit in toc -->
 
 ## Table of Contents <!-- omit in toc -->
-- [Grupal](#grupal)
+- [Ejercicios solucionados](#ejercicios-solucionados)
+  - [Grupal](#grupal)
+  - [Individual](#individual)
+- [Grupal](#grupal-1)
   - [Ceros de la función cuadrática](#ceros-de-la-función-cuadrática)
   - [Polinómio de Lagrange](#polinómio-de-lagrange)
   - [Método de bisección](#método-de-bisección)
 - [Individuales](#individuales)
+
+## Ejercicios solucionados
+### Grupal
+
+### Individual
+- [1.R](individual/1.R)
+- [2.R](individual/2.R)
+- [3.R](individual/3.R)
+- [4.R](individual/4.R)
+- [5.R](individual/5.R)
+- [6.R](individual/6.R)
+- [7.R](individual/7.R)
 
 ## Grupal
 ### Ceros de la función cuadrática
@@ -38,7 +53,6 @@ Dado el polinomio de grado 2, $p(x)=ax^2+bx+c$, decimos que $x_0$ es un cero o r
         # ...
     }
    ```
-
 ### Polinómio de Lagrange
 El objetivo de la actividad es implementar el [polinomio interpolador de Lagrange](https://es.wikipedia.org/wiki/Interpolaci%C3%B3n_polin%C3%B3mica_de_Lagrange#:~:text=En%20an%C3%A1lisis%20num%C3%A9rico%2C%20el%20polinomio,por%20Leonhard%20Euler%20en%201783.).
 
@@ -110,7 +124,7 @@ $$p_j(x) = \prod_{i \neq 1}^{} \dfrac{x - x_i}{x_i - x_j}$$
     }
    ```
 ### Método de bisección
-Dada una función continua `f` definida en un intervalo `[a,b]`, si `f(a)∗f(b)<0` entonces existe $x_0$ tal que $f(x_0)=0$. El método de bisección repite el siguiente pasos:
+Dada una función continua `f` definida en un intervalo `[a,b]`, si `f(a)*f(b)<0` entonces existe $x_0$ tal que $f(x_0)=0$. El método de bisección repite el siguiente pasos:
    - Elijo un punto del intervalo para crear dos subintervalos.
    - Descarto el intervalo en cuyos extremos `f` toma valores con distinto signo.
    - Si el intervalo resultante tiene ancho menor a una tolerancia, declaramos que cualquiera de los extremos es raíz de `f`.
@@ -181,11 +195,8 @@ Dada una función continua `f` definida en un intervalo `[a,b]`, si `f(a)∗f(b)
    2. Otro programa que se haga la operación inversa (de Fahrenheit a Celsius).
    3. Verifique que aplicar una función seguida de la otra devuelven el valor original.
 2. Cree una función que dado un cuadrado, a partir de la variable `base`, calcule su `perímetro` y su `área`.
-
 3. Construya una función `es_cuadrado_perfecto` que devuelva un **boolean** según el input `x` es o no un cuadrado perfecto (existe `k` tal que `k²`)
-
 4. Arme una función que dado un vector numérico `x` devuelve un vector con la `media muestral y`, la `mediana`. Use el siguiente modelo como base:
-
     ```r
     medias = function(x) {
         return(c(mean(x), median(x)))
@@ -217,18 +228,18 @@ Dada una función continua `f` definida en un intervalo `[a,b]`, si `f(a)∗f(b)
         return(dos_heladeras_bool)
     }
    ```
-    2. Use el siguiente código para obtener un vector con los resultados de correr la función anterior `k` veces.
+    1. Use el siguiente código para obtener un vector con los resultados de correr la función anterior `k` veces.
     ```r
     k = 1000
     N = 40000000
     n = 15000
     reps = replicate(k, una_heladera(N, n))
     ```
-    3. Calcule la media muestral de `reps`, ¿qué representa?.
+    1. Calcule la media muestral de `reps`, ¿qué representa?.
 6. Considere la siguientes tres sucesiones:
-   - $$a_n = (\dfrac{1}{\sqrt{n}}) + (\dfrac{1}{2})^n$$
-   - $$b_n = (-1)^n + 5$$
-   - $$c_n = \dfrac{3n-8}{\sqrt{16n^2 + n}}$$
+   - $a_n = \left(\dfrac{1}{\sqrt{n}} \right) + \left(\dfrac{1}{2} \right)^n$
+   - $b_n = (-1)^n + 5$
+   - $c_n = \dfrac{3n-8}{\sqrt{16n^2 + n}}$
    1. Grafique los primeros `n=100` términos de cada sucesión.
    2. Decida si las sucesiones son convergentes y en tal caso agregue una línea horizontal al gráfico.
 7. Considere las siguientes funciones:
@@ -237,13 +248,13 @@ Dada una función continua `f` definida en un intervalo `[a,b]`, si `f(a)∗f(b)
     \begin{cases}
     l_1(x) = |x|\\
     l_2(x) = x^2\\
-    \rho_x = x^2 • I_{(|x|≤k)} + 2k|x| - k^2 • I_{(|x|>k)}\\
+    \rho_k(x) = x^2 • I_{(|x|≤k)} + 2k|x| - k^2 • I_{(|x|>k)}\\
     \end{cases}
-    \forall \; xE[−10,10]
+    \forall \; x \in [−10,10]
     $$
 
     Grafique $\rho_k$ con `k=5` junto a las otras funciones con distintos colores y una leyenda.
 
 8. Grafique el polinomio interpolador de `Lagranges` en `n+1` puntos equiespaciados en el intervalo `[−1,1]`, con `n=5,10,15`, para los valores generados por las siguientes funciones:
-   - $$f_1(x) = \dfrac{1}{25x^2}$$
-   - $$f_2(x) = sin(\pi x)$$
+   - $f_1(x) = \dfrac{1}{25x^2}$
+   - $f_2(x) = sin(\pi x)$
