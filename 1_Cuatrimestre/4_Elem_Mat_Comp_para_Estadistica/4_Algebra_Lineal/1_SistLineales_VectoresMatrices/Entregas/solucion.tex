@@ -1,4 +1,4 @@
-\documentclass[a4paper,english]{article}
+\documentclass[a4paper,spanish]{article}
 
 %% Use utf-8 encoding for foreign characters
 \usepackage[T1]{fontenc}
@@ -9,7 +9,7 @@
 \usepackage{lmodern}
 
 %% Useful
-%\usepackage{fullpage} % Smaller margins
+\usepackage{fullpage} % Smaller margins
 \usepackage{enumerate}
 
 %% Theorem
@@ -18,14 +18,204 @@
 %% More math
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{delarray}
+\pagenumbering{arabic}
 
 %% Document Header
-\title{Title}
+\title{Entrega Clase 1 - Álgebra lineal}
 \author{Alejandro Uribe}
-\date{}
+\date{Octubre 2022}
 
 \begin{document}
 \maketitle
+\section*{Enunciado}
+Determinar los valores de $k$ (si existen) que hacen que el sistema resulte compatible determinado, compatible indeterminado o incompatible.
 
+\[
+    \begin{cases}
+        x + y + z = 1       \\
+        (k+2)x + ky -z  = 0 \\
+        -x +y -2z = -1
+    \end{cases}
+\]
+
+\section*{Desarrollo}
+
+A partir del sistema se construyó la matriz ampliada:
+
+\[
+    \begin{array}({@{}ccc|c@{}})
+        1   & 1 & 1  & 1  \\
+        k+2 & k & -1 & 0  \\
+        -1  & 1 & -2 & -1
+    \end{array}\
+\]
+
+Y se llevó a cabo eliminación gaussiana:
+
+\[
+    \begin{array}({@{}ccc|c@{}})
+        1   & 1 & 1  & 1  \\
+        k+2 & k & -1 & 0  \\
+        -1  & 1 & -2 & -1
+    \end{array}\
+    \;
+    \xrightarrow{f_2 - 2*f_1 \rightarrow f_2}
+    \;
+    \begin{array}({@{}ccc|c@{}})
+        1  & 1   & 1  & 1  \\
+        k  & k-2 & -3 & -2 \\
+        -1 & 1   & -2 & -1
+    \end{array}\
+    \;
+    \xrightarrow{f_3 + f_1 \rightarrow f_3}
+    \;
+\]
+\[
+    \begin{array}({@{}ccc|c@{}})
+        1 & 1   & 1  & 1  \\
+        k & k-2 & -3 & -2 \\
+        0 & 2   & -1 & 0
+    \end{array}\
+    \xrightarrow{f_1 \leftrightarrow f_2}
+    \;
+    \begin{array}({@{}ccc|c@{}})
+        k & k-2 & -3 & -2 \\
+        1 & 1   & 1  & 1  \\
+        0 & 2   & -1 & 0
+    \end{array}\
+    \;
+    \xrightarrow{f_1 + f_3 \rightarrow f_1}
+    \;
+\]
+
+\[
+    \begin{array}({@{}ccc|c@{}})
+        k & k & -4 & -2 \\
+        1 & 1 & 1  & 1  \\
+        0 & 2 & -1 & 0
+    \end{array}\
+    \;
+    \xrightarrow{k*f_2 \rightarrow f_2}
+    \;
+    \begin{array}({@{}ccc|c@{}})
+        k & k & -4 & -2 \\
+        k & k & k  & k  \\
+        0 & 2 & -1 & 0
+    \end{array}\
+    \;
+    \xrightarrow{f_2 - f_1 \rightarrow f_2}
+    \;
+\]
+
+\[
+    \begin{array}({@{}ccc|c@{}})
+        k & k & -4  & -2  \\
+        0 & 0 & k+4 & k+2 \\
+        0 & 2 & -1  & 0
+    \end{array}\
+    \;
+    \xrightarrow{f_2 \leftrightarrow f_3}
+    \;
+    \begin{array}({@{}ccc|c@{}})
+        k & k & -4  & -2  \\
+        0 & 2 & -1  & 0   \\
+        0 & 0 & k+4 & k+2
+    \end{array}\
+\]
+
+La anterior es una matriz escalonada a la que le corresponde el sistema:
+\[
+    \begin{cases}
+        kx + ky - 4z = -2 \\
+        2y - z = 0        \\
+        z = \frac{k+2}{k+4}
+    \end{cases}
+\]
+
+Se remplazó la variable $z$ y se simplificó el sistema:
+
+\[
+    \begin{cases}
+        kx + ky - 4z = -2 \\
+        2y - z = 0        \\
+        z = \frac{k+2}{k+4}
+    \end{cases}
+    \;
+    \rightarrow
+    \;
+    \begin{cases}
+        kx = -2 - ky + 4z \\
+        y = \frac{z}{2}   \\
+        z = \frac{k+2}{k+4}
+    \end{cases}
+    \;
+    \rightarrow
+    \;
+\]
+\[
+    \begin{cases}
+        kx  = -2 - k \frac{k+2}{2(k+4)} + 4 \frac{k+2}{k+4} \\
+        y = \frac{k+2}{2(k+4)}                              \\
+        z = \frac{k+2}{k+4}
+    \end{cases}
+    \;
+    \rightarrow
+    \;
+    \begin{cases}
+        x  = \frac{2-k}{2(k+4)} \\
+        y = \frac{k+2}{2(k+4)}  \\
+        z = \frac{k+2}{k+4}
+    \end{cases}
+\]
+
+\subsection*{Sistema incompatible}
+
+En este caso el sistema no tiene solución. Notar que el denominador común en todas las variables es $k + 4 = 0$. Dicho denominador debe ser tal que $k+4 \neq 0$, ya que en otro caso existiría una indeterminación, es decir, $k = -4$. Por lo tanto, el sistema en cuestión no tiene solución si $k = -4$.
+
+\subsection*{Sistema compatible determinado}
+
+Este caso implica que el sistema tiene solución única, es decir, si después de escalonar la matriz ampliada de un sistema de $n$ incógnitas se obtuvieron exactamente $n$ ecuaciones no nulas. Ahora bien, el sistema en cuestión cumple dicha condición si se cumple la igualdad:
+
+\[
+    \begin{cases}
+        x + y + z = 1       \\
+        (k+2)x + ky -z  = 0 \\
+        -x +y -2z = -1
+    \end{cases}
+    \text{donde \quad}
+    \begin{cases}
+        x  = \frac{2-k}{2(k+4)} \\
+        y = \frac{k+2}{2(k+4)}  \\
+        z = \frac{k+2}{k+4}
+    \end{cases}
+\]
+
+Del ejercicio anterior se concluyó que existe una indeterminación si $k = -4$. Por lo tanto, el sistema en cuestión tiene solución única si $k\neq-4$. Sea $S$ el conjunto de soluciones tal que:
+
+\[
+    S = \left\{
+    (x, y, z, k)
+    \in
+    \left\{ (\frac{2-k}{2(k+4)}, \frac{k+2}{2(k+4)}, \frac{k+2}{k+4}, k) \right\}:
+    k \in \mathbb{R} - \{-4\}
+    \right\}
+\]
+
+\subsection*{Sistema compatible indeterminado}
+
+Este caso implica que el sistema tiene infinitas soluciones. Es decir, si al escalonar la matriz ampliada se obtuvo menos de $n$ filas no nulas en las primeras $n$ columnas, y el resto de las filas son nulas en todas las columnas.
+
+Para el sistema en cuestión, cumpliría este caso si se encuentra un $k$ que haga que los términos $(k+2)$ y $(k+4)$ sean ambos igual a cero. Es decir:
+
+\[
+    z (k + 4) = (k + 2)
+\]
+
+\[
+    z (0) = (0)
+\]
+
+No obstante, no existe dicho $k$. Por lo tanto, se concluye que no existe un valor de $k$ para que el sistema en cuestión sea \emph{compatible indeterminado}. Hecho que se puede comprobar gráficamente, siendo $k+4$ y $k+2$ dos líneas paralelas.
 
 \end{document}
