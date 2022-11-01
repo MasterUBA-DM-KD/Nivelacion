@@ -1,0 +1,203 @@
+---
+title: "Informe Álbum de figuritas"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+```{r echo = FALSE, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Defino el directorio de trabajo y cargo las funciones de mi archivo.
+
+```{r echo=TRUE}
+# Este bloque de código podría no mostrarse
+rm(list=ls()) # Borro todo
+setwd("~/git/maestria_ic/clases/05/figus/")
+source("funciones/funciones_figus.R")
+```
+
+Este presente informe abarcar parcialmente los interrogantes planteaados para el problema del álbum de figuritas ([Ver consigna](https://matiaslopez.github.io/ingreso_maestria_ic/clase04.html)).
+
+En este trabajo simulamos el llenado de un album de figuritas de cierta cantidad de figuritas; indicaremos de cuantas figuritas es el álbum y buscamos estudiar el número de figuritas que tenemos que comprar para completarlo. Para ello se asume que las figuritas tienen igual probabilidad de salir (es decir, son uniformemente distribuidas).
+
+# Modelo simplificado: comprando de a 1 figurita
+
+En la presente sección usaremos el álbum de 6 figuritas.
+
+```{r}
+num_figus <- 6
+```
+
+
+Por ser el proceso de adquisición de figuritas aleatorio, puede ocurrir que al comprar nos toquen repetidas. 
+
+A continuación se muestra el resultado de comprar 8 figuritas:
+
+```{r}
+# Este bloque de código se muestra pero podría ocultarse 
+# con "echo=FALSE" para que sólo se vea el resultado,
+# no es necesario el código para un informe.
+set.seed(5) #una semilla cualquiera pero para que siempre muestre de lo que voy a hablar
+n = 8
+figus_compradas <- rep(NA, n)
+for (i in 1:n) {
+  figus_compradas[i] <- comprar_figu(num_figus)
+}
+figus_compradas
+```
+
+Se puede observar que obtuvimos `r sum(figus_compradas==1)` figuritas número 1, mientras que no tenemos ninguna 4. Es decir, comprando 8 figuritas en esta oportunidad no logramos llenar el álbum.  
+
+No quiere decir, que no se pueda llenar comprando 8 figuritas, sólo dice que en dicha simulación no lo logramos. Si empezaramos con otra semilla (para que sea distinto) podemos obtener:
+```{r echo=FALSE}
+set.seed(1) #una semilla cualquiera pero para que siempre muestre de lo que voy a hablar
+n = 8
+figus_compradas <- rep(NA, n)
+for (i in 1:n) {
+  figus_compradas[i] <- comprar_figu(num_figus)
+}
+figus_compradas
+```
+Que sí llena el álbum, incluso se llena al comprar las septima figurita.
+
+
+## Simulaciones de llenado
+
+Analizamos los resultados de realizar 1000 simulaciones.
+
+```{r echo=FALSE} 
+# Este bloque de código no se muestra
+muchos_completan <- muchas_simulaciones(1000, num_figus)
+```
+
+El número de figuritas que hay  que comprar, en promedio, para completar el  álbum es `r mean(muchos_completan)`.
+
+Por otro lado, la probabilidad de completar el álbum comprando 16 figuritas que observamos es `r mean(muchos_completan<=16)`
+
+```{r echo=FALSE}
+ordenados <- sort(muchos_completan)
+```
+
+Mientras que si buscamos la cantidad de figuritas que tenemos que comprar para tener una probabilidad del 90% de completar el álbum `r ordenados[0.9*length(ordenados)]` figuritas.
+
+
+### Sobre variabilidad y convergencia
+
+Cabe enfatizar que cada vez que simulamos el llenado del álbum obtenemos un valor distinto de figuritas que hubo que comprar para llenarlo. Si lo llenamos 10 veces tenemos:
+
+```{r echo=F}
+set.seed(23)
+cantidad <- 10
+compradas <- rep(NA, cantidad)
+for (i in 1:cantidad) {
+  compradas[i] <- cuantas_figus(num_figus)
+}
+
+plot(1:cantidad, compradas, ylim = c(-1,20), 
+     xlab = "Número de simulación", 
+     ylab = "Cantidad compradas\npara llenarlo",
+     main="Simulación de llenado de un álbum",
+     sub=paste0("Simulando con un álbum de ", num_figus, " figuritas, ", cantidad, " corridas."))
+abline(h = 6, col="blue", lwd=1, lty=2)
+```
+
+En esta pequeña muestra vemos que hubo una oportunidad donde se lleno el álbum comprando exactamente 
+`r num_figus` (corrida `r match(6, compradas)`), mientras que en otras corridas se llega a `r max(compradas)`.
+Es interesante ver que el `r mean(compradas>=2*num_figus)*100`% de las corridas necesito al menos `r 2*num_figus`, es decir, el doble de la cantidad del álbum. El promedio de llenado del álbum de estas corridas es `r mean(compradas)`.
+
+```{r}
+n_rep <- 1000
+```
+
+
+Veamos entonces, que sucede con el experimento a medida que aumentamos las repeticiones. Donde aumentarlas quiere decur que con `r n_rep` corridas, emulamos el comportamiento de `r n_rep` individuos que completan el álbum y nos dicen cuántas figuritas necesitaron comprar cada uno para completarlo. Esta información podemos condensarla en alguna métrica, por ejemplo, el promedio de los valores observados. 
+
+```{r echo=F}
+set.seed(6)
+compradas <- rep(NA, n_rep)
+for (i in 1:n_rep) {
+  compradas[i] <- cuantas_figus(num_figus)
+}
+
+plot(1:n_rep, compradas, ylim = c(-1,max(compradas)), 
+     xlab = "Número de simulación", 
+     ylab = "Cantidad compradas\npara llenarlo",
+     main="Simulación de llenado de un álbum",
+     sub=paste0("Simulando con un álbum de ", num_figus, " figuritas, ", n_rep, " corridas."))
+abline(h = 6, col="blue", lwd=1, lty=2)
+abline(h = max(compradas), col="red", lwd=1, lty=2)
+```
+
+En este caso el promedio es `r mean(compradas)`.
+
+Podemos analizar entonces, cómo se comporta el promedio a medida que aumentamos las repeticiones.
+
+```{r echo=FALSE}
+set.seed(3)
+enes_rep <- c(200, 500, 1000, 5000, 10000)
+
+cuantos_enes <- length(enes_rep)
+promedios <- rep(NA, cuantos_enes)
+
+for(j in 1:cuantos_enes){
+  n_rep <- enes_rep[j]
+  muchos_completan <- muchas_simulaciones(n_rep, num_figus)
+  
+  promedios[j] <- mean(muchos_completan)
+}
+y_max <-max(promedios) + 0.2
+y_min <- min(promedios) - 0.2 
+plot(enes_rep, promedios,
+     ylim = c(y_min, y_max),  xaxt="none",
+     xlab = "Cantidad de repeticiones",
+     ylab = "Promedio",
+     main = "Promedios para distintas repeticiones")
+xtick<-enes_rep
+axis(1, xtick,las=2)
+```
+
+El interrogante es, ¿qué pasaría si repetimos la simulación en las distintas cantidades? ¿Se mantienten igual de cerca de los mismos valores?
+
+Si repetimos el procedimiento hasta alcanzar 10 simulaciones para cada lote de repeticiones obtenemos:
+```{r echo=FALSE}
+df <- data.frame()
+df <- rbind(df, c(1,promedios))
+colnames(df) <- c("Corrida", "n_200", "n_500", "n_1000", "n_5000", "n_10000")
+total_itereaciones <- 10
+set.seed(10)
+
+enes_rep <- c(200, 500, 1000, 5000, 10000)
+cuantos_enes <- length(enes_rep)
+
+for(k in 2:total_itereaciones){
+  promedios <- rep(NA, cuantos_enes)
+  for(j in 1:cuantos_enes){
+    n_rep <- enes_rep[j]
+    muchos_completan <- muchas_simulaciones(n_rep, num_figus)
+    
+    promedios[j] <- mean(muchos_completan)
+  }
+  df <- rbind(df, c(k,promedios))
+}
+
+y_max <-max(df) + 0.2
+y_min <- min(df[df >10]) - 0.2
+plot(enes_rep, df[1,2:6], ylim = c(y_min, y_max),  xaxt="none",
+     xlab = "Cantidad de repeticiones",
+     ylab = "Promedio",
+     main = paste0(total_itereaciones, " promedios para distintas repeticiones"))
+
+for (k in 2:total_itereaciones) {
+  points(enes_rep, df[k,2:6], col=k)
+}
+xtick<-enes_rep
+axis(1, xtick,las=2)
+```
+
+En este punto remarcamos el hechos que la variabilidad entre los promedios disminuye a medida que aumentamos la cantidad de replicaciones. Es decir,cuando miramos los diferentes promedios calculados utilizando 200 repeticiones vemos puntos con mayor dispersión que la observada al realizar promedios con mas replicaciones. 
+
+Esto va en camino de mostrar que los promedios convergen a un mismo valor a medida de aumentamos la cantidad de replicaciones. Este resultado se demostrará matemáticamente; no es otra cosa que  la Ley de los Grandes Números. 
+
