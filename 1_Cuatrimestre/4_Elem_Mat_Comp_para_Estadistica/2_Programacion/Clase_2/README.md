@@ -34,7 +34,7 @@ buscar_una_palabra("alo", list("hola", "chau")) == FALSE
 # TRUE
 ```
 
-Escriba una función que verifique ambas condiciones de manera automática.
+3. Escriba una función que verifique ambas condiciones de manera automática.
 
 ```r
 test_buscar_una_palabra <- function(){
@@ -42,9 +42,9 @@ test_buscar_una_palabra <- function(){
     return(pasa_los_test)
 }
 ```
-Cada vez que modifiquemos nuestra función original, tenemos una forma rápida de verificar que aún funciona.
+    Cada vez que modifiquemos nuestra función original, tenemos una forma rápida de verificar que aún funciona.
 
-3. Use la función anterior para determinar el vector de elementos únicos de una lista de palabras. Use el siguiente modelo como base:
+4. Use la función anterior para determinar el vector de elementos únicos de una lista de palabras. Use el siguiente modelo como base:
 
 ```r
 borrar_duplicados <- function(lista_de_palabras){
@@ -53,7 +53,7 @@ borrar_duplicados <- function(lista_de_palabras){
 }
 ```
 
-4. En `R` disponemos del comando `unique`. Comparemos los desempeños comparando sus tiempos de ejecución. Usaremos el comando benchmark del paquete `rbenchmark`.
+5. En `R` disponemos del comando `unique`. Comparemos los desempeños comparando sus tiempos de ejecución. Usaremos el comando benchmark del paquete `rbenchmark`.
 
 ```r
 # Instalamos el paquete
@@ -69,7 +69,7 @@ lista_test <- generar_lista(letters[1:10], sample(2:5, 10, replace = TRUE))
 benchmark(borrar_duplicados(lista_test), unique(lista_test))
 ```
 
-5. Modifique la función anterior para contar la cantidad de elementos de cada elemento único. Es decir, calcule la **frecuencia absoluta** de los elementos únicos encontrados.
+6. Modifique la función anterior para contar la cantidad de elementos de cada elemento único. Es decir, calcule la **frecuencia absoluta** de los elementos únicos encontrados.
 
 ```r
 contar_palabras <- function(lista_de_palabras){
@@ -79,9 +79,9 @@ contar_palabras <- function(lista_de_palabras){
 }
 ```
 
-6. Compare el desempeño contra la función `table` de R.
+7. Compare el desempeño contra la función `table` de R.
 
-7. Agregue a la función anterior un argumento `frec_tipo` para calcular la **frecuencia relativa** o la **frecuencia porcentual**.
+8. Agregue a la función anterior un argumento `frec_tipo` para calcular la **frecuencia relativa** o la **frecuencia porcentual**.
 
 ```r
 contar_palabras <- function(lista_de_palabras, frec_tipo){
@@ -91,7 +91,7 @@ contar_palabras <- function(lista_de_palabras, frec_tipo){
 }
 ```
 
-8. Haga un gráfico de barras con las frecuencias obtenidas de la función anterior. En función del tipo de frecuencia elegido el gráfico deberá ajustar su título y etiquetas en los ejes.
+9. Haga un gráfico de barras con las frecuencias obtenidas de la función anterior. En función del tipo de frecuencia elegido el gráfico deberá ajustar su título y etiquetas en los ejes.
 
 ```r
 plot_frecuencias = function(frecuencias, etiquetas, frec_tipo){
@@ -99,7 +99,7 @@ plot_frecuencias = function(frecuencias, etiquetas, frec_tipo){
 }
 ```
 
-9. Agregue un argumento para graficar las `N` palabras con más apariciones. Pruebe la función con la salida del siguiente código que usa herramientas para manipular cadenas de texto de la librería `stringr`.
+10. Agregue un argumento para graficar las `N` palabras con más apariciones. Pruebe la función con la salida del siguiente código que usa herramientas para manipular cadenas de texto de la librería `stringr`.
 
 ```r
 install.packages("stringr)
@@ -113,7 +113,7 @@ file_clean = unlist(strsplit(str_replace_all(file, "([,.0-9])", "")," "))
 file_clean
 ```
 
-10. ¿Qué hace el siguiente código?
+11. ¿Qué hace el siguiente código?
 
 ```r
 all(unique(file_clean) == borrar_duplicados(file_clean))
@@ -143,7 +143,7 @@ all(unique(file_clean) == borrar_duplicados(file_clean))
     return(ganamos)
     }
     ```
-    2. Luego, juegue `1000` veces y calcule la proporción de veces que ganó el juego. Utilice bucles y compare el desempeño contra el siguiente código:
+   2. Luego, juegue `1000` veces y calcule la proporción de veces que ganó el juego. Utilice bucles y compare el desempeño contra el siguiente código:
     ```r
     mean(replicate(n=1000, expr=juego_123))
     ```
@@ -160,7 +160,7 @@ all(unique(file_clean) == borrar_duplicados(file_clean))
     return(deciles_vec)
     }
     ```
-5. Arme una función que, dado un vector de valores logical, indique si son todos TRUE. Compare su desempeño contra la función all .
+5. Arme una función que, dado un vector de valores `logical`, indique si son todos `TRUE`. Compare su desempeño contra la función `all`.
 
 6. En la primera página de [este](https://arxiv.org/pdf/2110.01111.pdf) trabajo, sus autores proponen un método para ordenar una lista de números de forma creciente. Escriba una función en R que implemente el pseudocódigo de la imagen. ¿Funciona el método propuesto? Compare su desempeño contra la función `sort`.
 ![image](img/download.png)
