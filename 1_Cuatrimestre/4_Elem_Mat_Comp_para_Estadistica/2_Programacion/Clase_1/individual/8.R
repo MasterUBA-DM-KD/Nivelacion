@@ -1,17 +1,81 @@
-# 8. Grafique el polinomio interpolador de Lagranges en n+1
-# puntos equiespaciados en el intervalo [−1,1], con n=5,10,15, para los valores
-# generados por las siguientes funciones:
+    library(stringr)
 
-pol_lagranges <- function() {
-    return(0)
-}
+    pol_lagrange <- function(x, xi, idx) {
+        L_i <- 1.
+        for (i in 1:length(xi))
+        {
+            if (i != idx) {
+                L_i <- L_i * ((x - xi[i]) / (xi[idx] - xi[i]))
+            }
+        }
+        return(L_i)
+    }
 
-n <- seq(-1.5, 1.5, length.out = 5)
-f_x <- tan(n)
+    eval_pol_lagrange <- function(x, xi, yi) {
+        f_aprox <- 0.
+        for (idx in 1:length(xi)) {
+            f_aprox <- f_aprox + yi[idx] * pol_lagrange(x, xi, idx)
+        }
+        return(f_aprox)
+    }
 
-x <- seq(-1.5, 1.5, length.out = 100)
+    interpolador <- function(xi, yi) {
+        f_interpolador <- function(x) {
+            return(eval_pol_lagrange(x, xi, yi))
+        }
+        return(f_interpolador)
+    }
 
-for (i in seq(length(n) - 1)) {
-    print(i)
-    print(i + 1)
-}
+    interpolar_lagrange <- function(xi, yi, n) {
+        xs <- seq(min(xi), max(xi), length = n)
+        ys <- Map(interpolador(xi, yi), xs)
+
+        return(list(xs, ys))
+    }
+
+
+    graficar_interpolador <- function(a, b, n, func, func_n = "") {
+        xi <- seq(a, b, length.out = n + 1)
+        yi <- func(xi)
+
+
+        x_graph <- seq(a, b, by = 0.1)
+        y_graph <- func(x_graph)
+
+        x_y <- interpolar_lagrange(xi, yi, n)
+        x_s <- x_y[[1]]
+        y_s <- x_y[[2]]
+
+
+        colours <- c("red", "green")
+        plot(x_graph, y_graph,
+            type = "l", col = colours[1], , lwd = 2,
+            xlab = "x", ylab = "f(x)", main = func_n
+        )
+        points(x_s, y_s, type = "b", col = colours[2], lwd = 2)
+        legend("right", legend = c("Real", "Lagrange"), pch = 15, col = colours)
+    }
+
+
+    a <- -1
+    b <- 1
+    n <- seq(5, 15, by = 5)
+
+    f1 <- function(z) {
+        return(1 / (25 * z^2))
+    }
+
+    f2 <- function(w) {
+        return(sin(pi * w))
+    }
+
+    graficar_interpolador(a, b, 10, f1)#, str_interp("1/(25*x^2) con n=${i}"))
+
+    # par(mfrow = c(2, 3))
+
+    # for (i in n) {
+    #     graficar_interpolador(a, b, i, f1, str_interp("1/(25*x^2) con n=${i}"))
+    # }
+    # for (i in n) {
+    #     graficar_interpolador(a, b, i, f2, str_interp("sin(pi*x) con n=${i}"))
+    # }
