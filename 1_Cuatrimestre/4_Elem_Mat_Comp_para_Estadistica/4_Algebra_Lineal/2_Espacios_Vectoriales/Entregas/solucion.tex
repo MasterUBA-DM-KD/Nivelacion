@@ -7,6 +7,8 @@
 
 %% Vector based fonts instead of bitmaps
 \usepackage{lmodern}
+\usepackage{physics}
+\usepackage{gensymb}
 
 %% Useful
 \usepackage{fullpage} % Smaller margins
@@ -20,6 +22,7 @@
 \usepackage{amssymb}
 \usepackage{delarray}
 \pagenumbering{arabic}
+\decimalpoint
 
 %% Document Header
 \title{Entrega Clase 2 - Álgebra lineal}
@@ -28,5 +31,150 @@
 
 \begin{document}
 \maketitle
+
+\section*{Enunciado}
+Dados $u = (2, 2, 1)$ y $v = (2, 1, 3)$.
+\begin{enumerate}
+    \item Hallar $\lVert u \rVert$ y $\lVert v \rVert$
+    \item Hallar el ángulo que forman $u$ y $v$.
+    \item Hallar la proyección de $w = (1, 1, 1)$ sobre la recta $\langle u \rangle$
+    \item Verificar que el conjunto de vectores $\{u, v\}$ es linealmente independiente y hallar por Gram-Schmidt una base ortonormal de $V = \langle u,v \rangle$
+    \item Completar la base hallada en el ítem anterior a una base ortonormal de $\mathbf{B}$ de $\mathbb{R}^{3}$
+    \item Escribir al vector $(1,0,0)$ como combinación lineal de los vectores de $\mathbf{B}$ y verificar el resultado obtenido.
+\end{enumerate}
+
+\section*{Solución}
+\subsection*{Norma de los vectores}
+Dado un vector $v  \in \mathbb{R}^{n}$, su normal se define como:
+\[
+    \lVert v \rVert = \sqrt{\sum_{i=1}^{n}v_{i}^2}
+\]
+Entonces, para los vectores en cuestión:
+\begin{align*}
+    \lVert u \rVert = \sqrt{\sum_{i=1}^{n}u_{i}^2} = \sqrt{ 2^2 + 2^2 + 1^2 } = \sqrt{9} = 3 \\
+    \lVert v \rVert = \sqrt{\sum_{i=1}^{n}v_{i}^2} = \sqrt{ 2^2 + 1^2 + 3^2 } = \sqrt{14}
+\end{align*}
+\subsection*{Ángulo entre vectores}
+El ángulo $\theta$ entre dos vectores $u$ y $v$ se define como:
+\[
+    \theta = \arccos \left(\frac{\langle u, v \rangle}{\lVert u \rVert \lVert v \rVert} \right) = \arccos \left(  \frac{\displaystyle\sum_{i=1}^{n}u_{i}v_{i}}{\sqrt{\displaystyle\sum_{i=1}^{n}u_{i}^2} \sqrt{\displaystyle\sum_{i=1}^{n}v_{i}^2}}  \right)
+\]
+Entonces, para los vectores en cuestión:
+\[
+    \theta = \arccos \left( \frac{2 \cdot 2 + 2 \cdot 1 + 1 \cdot 3}{3 \cdot \sqrt{14}}\right)  \approx 0.6405 \approx 36.7^{\circ}
+\]
+
+\subsection*{Proyección de un vector sobre una recta}
+La proyección $p$ de un vector $w$ sobre la recta generada por un vector $u$ se define como:
+\[
+    p = \frac{\langle u, w \rangle}{\langle u, u \rangle}u
+\]
+Ya que $\lVert u \rVert = \sqrt{\langle u,u \rangle}$
+\[
+    p = \frac{\displaystyle\sum_{i=1}^{n}u_{i}w_{i}}{\lVert u \rVert^2}u
+\]
+
+Entonces, para el caso de $u$ y $w$:
+\[
+    p = \frac{2 \cdot 1 + 2 \cdot 1 + 1 \cdot 1}{3^2} \left(\begin{matrix}2 \\2\\1\end{matrix}\right) = \frac{5}{9} \left(\begin{matrix}2 \\2\\1\end{matrix}\right)
+\]
+
+\subsection*{Independencia lineal}
+El conjunto $\{v_1,v_2, ...,v_n\}$ es linealmente independiente si $a_i = 0, \; \forall i: \; 1\leq i \leq n$ tal que $\displaystyle\sum_{i=1}^n a_i v_i = 0$. Para el caso en cuestión:
+\[
+    a_1u + a_2v = 0
+\]
+
+Es decir,
+
+\[
+    a_1 \left(\begin{matrix}2 \\2\\1\end{matrix}\right) + a_2 \left(\begin{matrix}2 \\1\\3\end{matrix}\right) = 0
+\]
+
+Se procede a resolver el siguiente sistema:
+
+\begin{align*}
+    \begin{cases}
+        2a_1 + 2a_2 = 0 \\
+        2a_1 + a_2 = 0  \\
+        a_1 + 3a_2 = 0
+    \end{cases}
+    \;
+    \begin{cases}
+        2a_1 + 2a_2 = 0 \\
+        a_2 = -2a_1     \\
+        a_1 = -3a_2
+    \end{cases}
+    \;
+    \begin{cases}
+        2(-3a_2) + 2a_2 = 0
+    \end{cases}
+    \;
+    \begin{cases}
+        -6a_2 + 2a_2 = 0
+    \end{cases}
+    \;
+    \begin{cases}
+        a_2 = 0
+    \end{cases}
+\end{align*}
+
+Sabiendo que $a_2 = 0$, si se remplaza en $a_1=-3a_2$ se concluye que $a_i = 0, \; \forall i: \; 1\leq i \leq n$. Por lo tanto, el sistema $\{u,v\}$ es linealmente independiente.
+
+\subsection*{Base ortogonal}
+Una base $\mathbf{B}$ ortogonal para $V=\langle u,v \rangle$ se calcula realizando los siguientes pasos:
+
+\begin{align*}
+    v_1 = u \\
+    v_2 = v - \left(\frac{v_1 \cdot v}{v_1 \cdot v_1}\right) v_1
+\end{align*}
+
+Remplazando los valores de $u$ y $v$:
+\begin{align*}
+    v_1 = \left(\begin{matrix}2 \\2\\1\end{matrix}\right) \\
+    v_2 = \left(\begin{matrix}2 \\1\\3\end{matrix}\right) - \left(\frac{\left(\begin{matrix}2 \\2\\1\end{matrix}\right) \cdot \left(\begin{matrix}2 \\1\\3\end{matrix}\right)}{\left(\begin{matrix}2 \\2\\1\end{matrix}\right) \cdot \left(\begin{matrix}2 \\2\\1\end{matrix}\right)}\right) \left(\begin{matrix}2 \\2\\1\end{matrix}\right)
+\end{align*}
+
+Tras simplificar:
+
+\begin{align*}
+    v_1 = \left(\begin{matrix}2 \\2\\1\end{matrix}\right) \\
+    v_2 = \left(\begin{matrix}0 \\-1\\2\end{matrix}\right)
+\end{align*}
+
+\subsection*{Base ortonormal}
+Resta dividir los vectores sobre su norma para obtener una base ortonormal.
+
+\begin{align*}
+    q_1 = \frac{1}{3}\left(\begin{matrix}2 \\2\\1\end{matrix}\right) \\
+    q_2 = \frac{1}{\sqrt{5}} \left(\begin{matrix}0 \\-1\\2\end{matrix}\right)
+\end{align*}
+
+\subsection*{Vector como combinacion lineal de los vectores de una base}
+Dada una base $\mathbf{B}$ ortonormal de un espacio vectorial $V$, un vector $v \in V$ se puede escribir como combinación lineal de los vectores de $\mathbf{B}$.
+
+\[
+    v = a_iq_1 + ... + a_nq_n
+\]
+
+Cada uno  de los coeficientes $a_i$ se obtiene por la fórmula:
+
+\[
+    a_i = \langle v, q_i \rangle
+\]
+
+Para el vector en cuestión:
+
+\begin{align*}
+    a_1 = \langle v, q_1 \rangle = \frac{1}{3}\left(\begin{matrix}2 \\2\\1\end{matrix}\right) \cdot \left(\begin{matrix}1\\0\\0\end{matrix}\right) \\
+    a_2 = \langle v, q_2 \rangle = \frac{1}{\sqrt{5}} \left(\begin{matrix}0 \\-1\\2\end{matrix}\right) \cdot \left(\begin{matrix}1\\0\\0\end{matrix}\right)
+\end{align*}
+Tras simplificar:
+\begin{align*}
+    a_1 =  \frac{2}{3} \\
+    a_2 = 0
+\end{align*}
+
+Ya que  $a_1 \neq 0$ el sistema es linealmente dependiente. Lo que se confirma
 
 \end{document}
