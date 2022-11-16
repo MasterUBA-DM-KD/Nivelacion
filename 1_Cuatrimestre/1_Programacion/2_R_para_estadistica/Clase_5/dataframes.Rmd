@@ -1,0 +1,172 @@
+# Dataframes
+
+Considere el dataset Bikeshare del paquete `ISLR2`
+
+```{r}
+install.packages("ISLR2")
+library(ISLR2)
+```
+
+1. Qué datos recoge el dataframe? (`help(Bikeshare)` o `?Bikeshare`)
+
+```{r}
+help(Bikeshare)
+```
+
+```{r}
+?Bikeshare
+```
+
+2. Explore el dataframe con los comandos `summary`, `head` y `tail`.
+
+```{r}
+summary(Bikeshare)
+```
+
+```{r}
+head(Bikeshare,2)
+```
+
+```{r}
+tail(Bikeshare,2)
+```
+
+3. ¿Qué dimensiones tiene? (`dim`, `nrow`, `ncol`)
+
+```{r}
+dim(Bikeshare)
+```
+
+```{r}
+nrow(Bikeshare)
+```
+
+```{r}
+ncol(Bikeshare)
+```
+
+4. ¿Cómo se llaman las columnas? ¿Y las filas? (`colnames`, `rownames`)
+
+```{r}
+for (i in colnames(Bikeshare)) {
+  print(i)
+}
+```
+
+```{r}
+rownames(Bikeshare)[1]
+```
+
+5. ¿Qué tipo de dato representa cada variable?
+
+```{r}
+sapply(Bikeshare, class)
+```
+
+6. ¿Hay valores faltantes? Es decir, ¿hay valores `NA` ? (`is.na`)
+
+```{r}
+colSums(is.na(Bikeshare))
+```
+
+7. Escriba una función que transforme una columna numérica en una con solo dos categorías, “bajo” y “alto” según los valores sean menores que un umbral predeterminado. Use el siguiente modelo como ejemplo:
+    ```r
+    transformar_columna(dataframe, nombre_columna, umbral){
+        #…
+        return(dataframe)
+    }
+    ```
+
+```{r}
+transformar_columna <- function(dataframe, nombre_columna, umbral){
+  
+        dataframe[nombre_columna][dataframe[nombre_columna]<=umbral] <- "bajo"
+        dataframe[nombre_columna][dataframe[nombre_columna]>umbral] <- "alto"
+        
+        return(dataframe)
+    }
+```
+
+```{r}
+transformar_columna(Bikeshare, 'hum', 0.5)
+```
+
+
+8. ¿Cuál es el promedio de bikers por `season`?
+
+```{r}
+mean(Bikeshare$season)
+```
+
+9. Grafique el comando `boxplot(bikers ~ weekday, data=Bikeshare)`.
+
+```{r}
+boxplot(bikers ~ weekday, data=Bikeshare)
+```
+
+10. Utilice el comando `read.table` o `read.csv` para:
+    - Leer el archivo desde el siguiente [link](https://github.com/anevolbap/modulo-nivelador-programacion/blob/master/bikeshare.csv) (vea el argumento `url`)
+    - Leer el archivo desde el disco (descargue el archivo del dataset primero)
+
+```{r}
+bikeshare_url <- read.csv('https://raw.githubusercontent.com/anevolbap/modulo-nivelador-programacion/master/bikeshare.csv', sep = ' ')
+```
+
+```{r}
+head(bikeshare_url,2)
+```
+
+```{r}
+write.csv(bikeshare_url,'./bike.csv', row.names = FALSE)
+```
+
+```{r}
+bikeshare_disk <- read.csv('./bike.csv')
+```
+
+```{r}
+head(bikeshare_disk, 2)
+```
+
+11. Escriba una función que reemplace la variable `season` un **one-hot-encoding**. Es decir, reemplace la columna `season` por tantas columnas como categorías admita, donde cada columna indica, con `1` o `0`, según su valor. Por ejemplo, si la observación es `season = 3`, las nuevas columnas valdrían `season_1 = 0`, `season_2 = 0`, `season_3 = 1`, `season_4 = 0`.
+
+
+```{r}
+unique(Bikeshare$season)
+```
+
+```{r}
+col_to_one_hot <- function(dataframe, col_name) {
+  unique_vals <- unique(dataframe[[col_name]])
+  print(unique_vals)
+  
+  for (i in unique_vals) {
+    new_col <- paste(col_name, i, sep='_')
+    dataframe[new_col] <- ifelse(dataframe[[col_name]] == i, 1, 0)
+  }
+  
+  return(dataframe)
+}
+```
+
+
+```{r}
+Bikeshare_one_hot <- col_to_one_hot(Bikeshare, 'season')
+```
+
+12. Escriba una función que reemplace la variable `mnth` con una variable numérica que tenga el promedio de registered por cada categoría.
+
+```{r}
+
+replace_mnth_mean <- function(dataframe, num_col, cat_col) {
+  unique_vals <- unique(dataframe[[cat_col]])
+  
+  for (i in unique_vals) {
+    avg_cat <- mean()
+    dataframe[num_col][dataframe[cat_col] ==i]
+    
+  }
+}
+
+```
+
